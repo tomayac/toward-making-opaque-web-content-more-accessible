@@ -1,20 +1,19 @@
-%% The first command in your LaTeX source must be the \documentclass command.
 \documentclass[sigconf]{acmart}
-\usepackage[utf8]{inputenc}
 
-%% Rights management information.  This information is sent to you
-%% when you complete the rights form.  These commands have SAMPLE
-%% values in them; it's your responsibility as an author to replace
-%% the commands and values with those provided to you when you
-%% complete the rights form.
 \copyrightyear{2024}
 \acmYear{2024}
 \setcopyright{rightsretained}
-\acmConference[WWW '24 Companion]{Companion Proceedings of the ACM Web Conference 2024}{May 13--May 17, 2024}{Singapore}
-\acmBooktitle{Companion Proceedings of the ACM Web Conference 2024 (WWW '24 Companion), May 13--May 17, 2024, Singapore}
-\acmDOI{123456789}
-\acmISBN{0123456789}
+\acmConference[WWW '24 Companion] {Companion Proceedings of the ACM Web Conference 2024}{May 13--17, 2024}{Singapore, Singapore.}
+\acmBooktitle{Companion Proceedings of the ACM Web Conference 2024 (WWW '24 Companion), May 13--17, 2024, Singapore, Singapore}
+\acmISBN{979-8-4007-0172-6/24/05}
+\acmDOI{10.1145/XXXXXX.XXXXXX}
+% 1 Authors, replace the red X's with your assigned DOI string during the rightsreview eform process.
+% 2 Your DOI link will become active when the proceedings appears in the DL.
+% 3 Retain the DOI string between the curly braces for uploading your presentation video.
 
+\settopmatter{printacmref=true}
+
+\usepackage[utf8]{inputenc}
 \usepackage{graphicx}
 \usepackage{enumitem}
 \usepackage{float}
@@ -110,6 +109,7 @@
 %% "authornote" and "authornotemark" commands
 %% used to denote shared contribution to the research.
 \author{Thomas Steiner}
+\orcid{0000-0001-7482-6129}
 \email{tomac@google.com}
 \affiliation{%  
   \institution{Google Germany GmbH}
@@ -291,7 +291,7 @@ One of the biggest concerns of this proposal was that any events fired on virtua
 
 \subsection{Accessibility with AccessKit}
 
-How could this approach be generalized for other frameworks that render to a canvas? Abstracting the solution of hidden \textsc{dom} structures is something the developers of an open-source project called AccessKit\footnote{AccessKit: \url{https://accesskit.dev/how-it-works/}} are working on: \textit{"The heart of AccessKit is a data schema that defines all the data required to render an accessible \textsc{ui} for screen readers and other assistive technologies. The schema represents a tree structure, in which each node or branch is either a single \textsc{ui} element, or an element cluster such as a window, pain, or document. Each node has an integer \textsc{id}, a role (\textit{e.g.}, button, edit, etc.) and a variety of optional attributes. The schema also defines actions that can be requested by assistive technologies, such as moving the keyboard focus, invoking a button, or selecting text"}. So-called platform adapters then implement the accessibility \textsc{api}s across various platforms. This cuts down significantly on development time when coding apps, as individual accessibility implementations will not need to be manually created for each platform. Currently, there are adapters for Windows, mac\textsc{OS}, and Unix, with plans for Android, i\textsc{OS}/tv\textsc{OS}, and web (by creating a hidden \textsc{html dom}).
+How could this approach be generalized for other frameworks that render to a canvas? Abstracting the solution of hidden \textsc{dom} structures is something the developers of an open-source project called AccessKit\footnote{AccessKit: \url{https://accesskit.dev/how-it-works/}} are working on: \textit{"The heart of AccessKit is a data schema that defines all the data required to render an accessible \textsc{ui} for screen readers and other assistive technologies. The schema represents a tree structure, in which each node or branch is either a single \textsc{ui} element, or an element cluster such as a window, pain, or document. Each node has an integer \textsc{id}, a role (\textit{e.g.}, button, edit, etc.) and a variety of optional attributes. The schema also defines actions that can be requested by assistive technologies, such as moving the keyboard focus, invoking a button, or selecting text"}. So-called platform adapters then implement the accessibility \textsc{api}s across various platforms. This cuts down significantly on development time when coding apps, as individual accessibility implementations will not need to be manually created for each platform. Currently, there are adapters for Windows, mac\textsc{OS}, and Unix, with plans for Android, i\textsc{OS}/tv\textsc{OS}, and Web (by creating a hidden \textsc{html dom}).
 
 \section{Future directions---will \textsc{ai} save us?}
 
@@ -299,6 +299,6 @@ Rather than going from the original framework code bottom up to the to-be-genera
 
 \section{Conclusions}
 
-Opaque content has long existed on the Web, since the early days of Flash. Today, partial content like charts\footnote{Charts.js library: \url{https://www.chartjs.org/}} is rendered opaquely to a canvas, and some apps consist of nothing more than a sole canvas element (supported by loads of JavaScript and WebAssembly). Questions on the desirability of screen reader detection have been consistently explored, from Flash's \texttt{flash.accessibility.Accessibility.active} property, to Flutter's opt-in button, to heuristics that some apps use based on keyboard navigation patterns. Accessibility can't be an afterthought, and protecting the privacy of those dependent on assistive technologies is deeply rooted in the Web Platform Design Principles.\footnote{Web Platform Design Principles: \url{https://www.w3.org/TR/design-principles/#do-not-expose-use-of-assistive-tech}} On one hand, browser \textsc{api} designers need to ensure that their \textsc{api} requires user consent, before a developer can detect that an assistive technology is being used. Early versions of the well-intentioned \textsc{aom} did not respect this principle and were hence removed. On the other hand, the web platform must be accessible to people with disabilities, which, in the case of canvas-rendered apps or canvas-rendered content, can be challenging to impossible without knowing assistive technologies are in use. Ensuring the accessibility of opaque Web content has always been a challenge worth solving. Ironically, not using opaque Web content in the first place may be the simplest solution.
+Opaque content has long existed on the Web, since the early days of Flash. Today, partial content like charts\footnote{Charts.js library: \url{https://www.chartjs.org/}} is rendered opaquely to a canvas, and some apps consist of nothing more than a sole canvas element (supported by loads of JavaScript and WebAssembly). Questions on the desirability of screen reader detection have been consistently explored, from heuristics that some apps use based on keyboard navigation patterns, to Flutter's opt-in button, to Flash's \texttt{flash.accessibility.Accessibility.active} property. Accessibility can't be an afterthought, and protecting the privacy of those dependent on assistive technologies is deeply rooted in the Web Platform Design Principles.\footnote{Web Platform Design Principles: \url{https://www.w3.org/TR/design-principles/#do-not-expose-use-of-assistive-tech}} On one hand, browser \textsc{api} designers need to ensure that their \textsc{api} requires user consent, before a developer can detect that an assistive technology is being used. Early versions of the well-intentioned \textsc{aom} did not respect this principle and were hence removed. On the other hand, the web platform must be accessible to people with disabilities, which, in the case of canvas-rendered apps or canvas-rendered content, can be challenging to impossible without knowing assistive technologies are in use. Ensuring the accessibility of opaque Web content has always been a challenge worth solving. Ironically, not using opaque Web content in the first place may be the simplest solution.
 \end{document}
 \endinput
