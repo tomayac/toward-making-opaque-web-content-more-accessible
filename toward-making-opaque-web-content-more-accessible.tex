@@ -3,10 +3,12 @@
 \copyrightyear{2024}
 \acmYear{2024}
 \setcopyright{rightsretained}
-\acmConference[WWW '24 Companion] {Companion Proceedings of the ACM Web Conference 2024}{May 13--17, 2024}{Singapore, Singapore.}
+\acmConference[WWW '24 Companion]{Companion Proceedings of the ACM Web Conference 2024}{May 13--17, 2024}{Singapore, Singapore}
 \acmBooktitle{Companion Proceedings of the ACM Web Conference 2024 (WWW '24 Companion), May 13--17, 2024, Singapore, Singapore}
+\acmDOI{10.1145/3589335.3651999}
 \acmISBN{979-8-4007-0172-6/24/05}
-\acmDOI{10.1145/XXXXXX.XXXXXX}
+
+% https://doi.org/
 % 1 Authors, replace the red X's with your assigned DOI string during the rightsreview eform process.
 % 2 Your DOI link will become active when the proceedings appears in the DL.
 % 3 Retain the DOI string between the curly braces for uploading your presentation video.
@@ -111,10 +113,10 @@
 \author{Thomas Steiner}
 \orcid{0000-0001-7482-6129}
 \email{tomac@google.com}
-\affiliation{%  
+\affiliation{%
   \institution{Google Germany GmbH}
   \streetaddress{ABC-Str. 19}
-  \city{Hamburg}  
+  \city{Hamburg}
   \country{Germany}
   \postcode{20354}
 }
@@ -194,7 +196,7 @@ Adobe Flash Player was a cross-platform browser plug-in. Authors creating conten
   \item \textit{"Labeling a form control by setting its accessible name"} (\textsc{flash}25)
 \end{itemize}
 
-\textsc{flash}34 is particularly interesting: \textit{"Using screen reader detection to turn off sounds that play automatically"}. The intent of this technique is to prevent sounds from playing when the Flash movie loads. This was considered useful both for those who utilize assistive technologies (such as screen readers, screen magnifiers, switch mechanisms, etc.) and some who may not (such as those with cognitive, learning, and language disabilities). By default, the sound would play automatically. However, when a screen reader such as \textsc{jaws} was detected however, the sound would have to be started manually. To perform screen reader detection (considered a privacy no-go by today's standards), Flash provided the \texttt{flash.accessibility.Accessibility.active} property. If this property was \texttt{true}, it meant that Flash Player had detected an assistive technology and the Flash developer could choose to run different process. Not every screen reader was detected using this mechanism. In general, the property would be set to \texttt{true} when any Microsoft Active Accessibility (\textsc{msaa}) client was running. \textsc{msaa} is an \textsc{api} for user interface accessibility that was introduced as a platform add-on to Windows 95 in 1997. 
+\textsc{flash}34 is particularly interesting: \textit{"Using screen reader detection to turn off sounds that play automatically"}. The intent of this technique is to prevent sounds from playing when the Flash movie loads. This was considered useful both for those who utilize assistive technologies (such as screen readers, screen magnifiers, switch mechanisms, etc.) and some who may not (such as those with cognitive, learning, and language disabilities). By default, the sound would play automatically. However, when a screen reader such as \textsc{jaws} was detected however, the sound would have to be started manually. To perform screen reader detection (considered a privacy no-go by today's standards), Flash provided the \texttt{flash.accessibility.Accessibility.active} property. If this property was \texttt{true}, it meant that Flash Player had detected an assistive technology and the Flash developer could choose to run different process. Not every screen reader was detected using this mechanism. In general, the property would be set to \texttt{true} when any Microsoft Active Accessibility (\textsc{msaa}) client was running. \textsc{msaa} is an \textsc{api} for user interface accessibility that was introduced as a platform add-on to Windows 95 in 1997.
 
 \begin{lstlisting}[language=JavaScript, style=ES6, label={lst:flash}, caption={Setting the description property for a non-text object in Flash (\textsc{flash}2)}]
 // Setting a textual description for a chart.
@@ -272,7 +274,7 @@ table.colCount = 10;
 table.rowcount = 100;
 const headerRow = table.append(new AccessibleNode());
 headerRow.role = 'row';
-// etc. 
+// etc.
 \end{lstlisting}
 
 One of the biggest concerns of this proposal was that any events fired on virtual nodes would immediately indication that the user is using assistive technology, which is private information that the user may not want to reveal. Adding a permission dialog might help if virtual nodes were only needed on a small number of specialized websites, but that would preclude their use in any widget library. To avoid privacy concerns, the currently feasible solution for custom-drawn \textsc{ui}s is to promote the use of true \textsc{dom} elements with \textsc{aria}, as described below.
@@ -280,7 +282,7 @@ One of the biggest concerns of this proposal was that any events fired on virtua
 \subsection{Hidden \textsc{dom} tree for canvas-rendered apps}
 
  The \textsc{dom} tree of fully canvas-rendered apps can, in the reductive case, consist of nothing more than a \texttt{canvas} element. This means that \textsc{dom}-based accessibility trees in browsers like Chrome\footnote{Accessibility tree in the Chrome browser: \url{https://developer.chrome.com/blog/full-accessibility-tree}} can't be populated. One approach for dealing with this is to recreate what's currently drawn onto the canvas in a hidden \textsc{dom} structure used exclusively by the browser to create the accessibility tree. Flutter\footnote{Flutter: \url{https://flutter.dev/}} is an industry framework that fully renders to a canvas to guarantee pixel perfection and platform consistency. The framework has a large number of default widgets that generate an accessibility tree automatically. For custom widgets, Flutter's \texttt{Semantics} class lets developers describe the meaning of their widgets, helping assistive technologies make sense of the widget content. For performance reasons, at the time of this writing, Flutter's accessibility is opt-in by default.
- 
+
  The core idea in Flutter is to create an accessible \textsc{dom} structure that reflects what's currently displayed on the canvas (\autoref{fig:flutter}). This structure consists of an \texttt{flt-semantics-host} parent custom element that has any combination of \texttt{flt-semantics} and \texttt{flt-semantics-container} child elements that can themselves be nested. For example, what is represented in the accessibility tree as a button would not actually be a \texttt{button} in the \textsc{dom} structure. It's an \texttt{flt-semantics} element with an \texttt{aria-label} attribute, with the button's text as its value, and a \texttt{role} attribute with the value of \texttt{button}. It's made focusable by giving it a \texttt{tabindex} of \texttt{0}. This \texttt{flt-semantics} element is absolutely positioned to appear exactly where the corresponding button is painted on the canvas. As such, whenever the user scrolls, the positions need to be adjusted, which is \textsc{cpu}-intense. For text editing, Flutter has an \texttt{flt-text-editing-host} element that has either an \texttt{input} or a \texttt{textarea} as its child that it places with pixel precision onto the corresponding canvas area. Browser features such as autofill then work as expected. This feature is always enabled, independent of whether accessibility is enabled or not.
 
 \begin{figure}[h]
@@ -295,7 +297,7 @@ How could this approach be generalized for other frameworks that render to a can
 
 \section{Future directions---will \textsc{ai} save us?}
 
-Rather than going from the original framework code bottom up to the to-be-generated accessibility tree, one could also imagine an \textsc{ai}-based approach. Here the \textsc{ai} would try \textit{ad hoc} to understand top-down what is currently painted onto the canvas, and translate that into an accessibility tree. Given enough training data, this could possibly work. However, the \textsc{ai} model would always be constrained to analyzing what it can currently "see" on the canvas. Anything outside of the canvas viewport, or anything outside of the viewport of a widget (like a long scrollable list box of hidden items), would be completely hidden from the \textsc{ai}. As such, this method seems problematic for some potential use cases. The processing power required to resolve in a timely manner may also be a limitation. Low-powered devices might already struggle with rendering the canvas application in the first place, and not have enough spare \textsc{cpu} cycles to run the \textsc{ai} on top. 
+Rather than going from the original framework code bottom up to the to-be-generated accessibility tree, one could also imagine an \textsc{ai}-based approach. Here the \textsc{ai} would try \textit{ad hoc} to understand top-down what is currently painted onto the canvas, and translate that into an accessibility tree. Given enough training data, this could possibly work. However, the \textsc{ai} model would always be constrained to analyzing what it can currently "see" on the canvas. Anything outside of the canvas viewport, or anything outside of the viewport of a widget (like a long scrollable list box of hidden items), would be completely hidden from the \textsc{ai}. As such, this method seems problematic for some potential use cases. The processing power required to resolve in a timely manner may also be a limitation. Low-powered devices might already struggle with rendering the canvas application in the first place, and not have enough spare \textsc{cpu} cycles to run the \textsc{ai} on top.
 
 \section{Conclusions}
 
